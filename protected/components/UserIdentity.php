@@ -17,34 +17,54 @@ class UserIdentity extends CUserIdentity
 	 * @return boolean whether authentication succeeds.
 	 */
 
-//    public function authenticate(){
-//        $user = User::model()->findByAttributes(array('username'=>$this->username));
-//        if($user === null)
-//            $this->errorCode=self::ERROR_USERNAME_INVALID;
-//        else if($user->passwd!==crypt($this->password,$user->passwd))
-//            $this->errorCode=self::ERROR_PASSWORD_INVALID;
-//        else{
-//            $this->id=$user->id;
-//            $this->setState('title', $user->username);
-//            $this->errorCode=self::ERROR_NONE;
-//        }
-//        return !$this->errorCode;
-//    }
     public function authenticate(){
-        $user = Agents::model()->findByAttributes(array('agent'=>$this->username));
-        if($user === null)
+        $user = null;
+        if(is_numeric($this->username[0])){
+            return $this->authByAgent();
+        }
+        else{
+            return $this->authByUser($user);
+        }
+    }
+    public function authByAgent(){
+        $agent = Agents::model()->findByAttributes(array('agent'=>$this->username));
+        if($agent === null)
             $this->errorCode=self::ERROR_USERNAME_INVALID;
-        else if($user->pin != $this->password)
+        else if($agent->pin != $this->password)
             $this->errorCode=self::ERROR_PASSWORD_INVALID;
         else{
-            $this->id=$user->agent;
-            $this->setState('title', $user->name);
-            $this->errorCode=self::ERROR_NONE;
+            $user = User::model()->findByAttributes(array('agent'=>$agent->agent));
+            if($user === null)
+                $this->errorCode=self::ERROR_USERNAME_INVALID;
+            else{
+                $this->id = $user->id;
+                $this->setState('title', $user->username);
+                $this->errorCode = self::ERROR_NONE;
+            }
         }
         return !$this->errorCode;
     }
 
     public function getId(){
         return $this->id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function authByUser()
+    {
+        $user = User::model()->findByAttributes(array('username'=>$this->username));
+
+        if ($user === null)
+            $this->errorCode = self::ERROR_USERNAME_INVALID;
+        else if ($user->passwd !== crypt($this->password, $user->passwd))
+            $this->errorCode = self::ERROR_PASSWORD_INVALID;
+        else {
+            $this->id = $user->id;
+            $this->setState('title', $user->username);
+            $this->errorCode = self::ERROR_NONE;
+        }
+        return !$this->errorCode;
     }
 }
