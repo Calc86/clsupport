@@ -17,15 +17,28 @@ class UserIdentity extends CUserIdentity
 	 * @return boolean whether authentication succeeds.
 	 */
 
+//    public function authenticate(){
+//        $user = User::model()->findByAttributes(array('username'=>$this->username));
+//        if($user === null)
+//            $this->errorCode=self::ERROR_USERNAME_INVALID;
+//        else if($user->passwd!==crypt($this->password,$user->passwd))
+//            $this->errorCode=self::ERROR_PASSWORD_INVALID;
+//        else{
+//            $this->id=$user->id;
+//            $this->setState('title', $user->username);
+//            $this->errorCode=self::ERROR_NONE;
+//        }
+//        return !$this->errorCode;
+//    }
     public function authenticate(){
-        $user = User::model()->findByAttributes(array('username'=>$this->username));
+        $user = Agents::model()->findByAttributes(array('agent'=>$this->username));
         if($user === null)
             $this->errorCode=self::ERROR_USERNAME_INVALID;
-        else if($user->passwd!==crypt($this->password,$user->passwd))
+        else if($user->pin != $this->password)
             $this->errorCode=self::ERROR_PASSWORD_INVALID;
         else{
-            $this->id=$user->id;
-            $this->setState('title', $user->username);
+            $this->id=$user->agent;
+            $this->setState('title', $user->name);
             $this->errorCode=self::ERROR_NONE;
         }
         return !$this->errorCode;
