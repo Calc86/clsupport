@@ -37,8 +37,7 @@ class UserIdentity extends CUserIdentity
             if($user === null)
                 $this->errorCode=self::ERROR_USERNAME_INVALID;
             else{
-                $this->id = $user->id;
-                $this->setState('title', $user->username);
+                $this->setVars($user);
                 $this->errorCode = self::ERROR_NONE;
             }
         }
@@ -61,10 +60,19 @@ class UserIdentity extends CUserIdentity
         else if ($user->passwd !== crypt($this->password, $user->passwd))
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         else {
-            $this->id = $user->id;
-            $this->setState('title', $user->username);
+            $this->setVars($user);
             $this->errorCode = self::ERROR_NONE;
         }
         return !$this->errorCode;
+    }
+
+    /**
+     * @param $user
+     */
+    public function setVars($user)
+    {
+        $this->id = $user->id;
+        $this->setState('title', $user->username);
+        $this->setState('name', $user->username);
     }
 }
