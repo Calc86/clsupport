@@ -24,6 +24,9 @@
  */
 class Remont extends Db2ActiveRecord
 {
+    const CALL_PLAN = 20;
+    const CALL_COST = 20;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -101,26 +104,43 @@ class Remont extends Db2ActiveRecord
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
+        // type = 15 - Обзвон 1
+        // type = 16 - Обзвон 2
 
-		$criteria=new CDbCriteria;
+		//$criteria=new CDbCriteria;
+        $criteria = $this->getDefaultCriteria();
+
 
 		$criteria->compare('num',$this->num);
 		$criteria->compare('date',$this->date,true);
-		$criteria->compare('admin_id',$this->admin_id);
+		//$criteria->compare('admin_id',$this->admin_id);
 		$criteria->compare('cdate',$this->cdate,true);
-		$criteria->compare('cadmin_id',$this->cadmin_id);
+		//$criteria->compare('cadmin_id','');
+        $criteria->addCondition('cadmin_id is NULL');
 		$criteria->compare('point',$this->point,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('problem',$this->problem,true);
 		$criteria->compare('p_when',$this->p_when,true);
 		$criteria->compare('comment',$this->comment,true);
-		$criteria->compare('type',$this->type);
+		//$criteria->compare('type',$this->type);
+
+        // ищем только 15 и 16
+
+
 		$criteria->compare('priority',$this->priority);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function getDefaultCriteria(){
+        $criteria=new CDbCriteria;
+
+        $criteria->addCondition('type=15 or type=16');
+
+        return $criteria;
+    }
 
 	/**
 	 * Returns the static model of the specified AR class.

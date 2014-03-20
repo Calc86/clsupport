@@ -70,6 +70,49 @@ class User extends CActiveRecord
 		);
 	}
 
+    public function callStatus(){
+        $remont = new Remont();
+
+        $criteria = $remont->getDefaultCriteria();
+        $criteria->compare('cadmin_id',$this->denezhka_id);
+
+        $criteria1 = clone $criteria;
+        $criteria2 = clone $criteria;
+        $start = mktime(0,0,0,date('m'),1,date('Y'));
+        $end = mktime(0,0,0,date('m')+1,1,date('Y'));
+        $criteria1->addBetweenCondition('cdate',
+            $start,
+            $end
+        );
+
+        $start = mktime(0,0,0,date('m'),date('d'),date('Y'));
+        $end = mktime(0,0,0,date('m'),date('d')+1,date('Y'));
+        $criteria2->addBetweenCondition('cdate',
+            $start,
+            $end
+        );
+
+        $data1 = new CActiveDataProvider('Remont',array(
+            'criteria' => $criteria1,
+            'pagination' => false,
+        ));
+
+        $data2 = new CActiveDataProvider('Remont',array(
+            'criteria' => $criteria2,
+            'pagination' => false,
+        ));
+
+        /*echo '<pre>';
+        print_r($data1->getData());
+        print_r($data2->getData());*/
+
+
+        return array(
+            'month' => $data1->itemCount,
+            'day' => $data2->itemCount
+        );
+    }
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *

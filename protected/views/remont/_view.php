@@ -33,7 +33,6 @@
 	<?php echo CHtml::encode($data->address); ?>
 	<br />
 
-	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('problem')); ?>:</b>
 	<?php echo CHtml::encode($data->problem); ?>
 	<br />
@@ -53,7 +52,5 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('priority')); ?>:</b>
 	<?php echo CHtml::encode($data->priority); ?>
 	<br />
-
-	*/ ?>
 
 </div>

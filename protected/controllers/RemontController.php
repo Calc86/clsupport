@@ -122,11 +122,20 @@ class RemontController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Remont');
+        $model=new Remont('search');
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['Remont']))
+            $model->attributes=$_GET['Remont'];
 
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+        $this->render('admin',array(
+            'model'=>$model,
+        ));
+
+//		$dataProvider=new CActiveDataProvider('Remont');
+//
+//		$this->render('index',array(
+//			'dataProvider'=>$dataProvider,
+//		));
 	}
 
 	/**

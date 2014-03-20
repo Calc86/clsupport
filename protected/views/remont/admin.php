@@ -26,12 +26,47 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Remonts</h1>
+<h1>Remonts</h1>
 
-<p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
+<?php
+/* @var $user User */
+$user = Yii::app()->user->getModel();
+
+$status = $user->callStatus();
+
+function statusLine($cur,$max){
+
+    $line = '____________________';
+
+    for($i=0;$i<min($cur,20);$i++){
+        $line[$i] = '=';
+    }
+
+    return $line;
+}
+
+?>
+
+<table>
+    <tr>
+        <td><?=date("d.m.y")?></td>
+        <td><?=date("1-t.m.Y")?></td>
+    </tr>
+    <tr>
+        <td><?=Yii::app()->user->name?></td>
+        <td><?=Remont::CALL_COST?>руб/зв => <?=$status['month']?>зв/<?=($status['month']*Remont::CALL_COST)?>руб</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table>
+                <tr>
+                    <td>План</td>
+                    <td><?=$status['day']?>/<?=Remont::CALL_PLAN?> <?=(statusLine($status['day'],Remont::CALL_PLAN))?> <?=($status['day']*Remont::CALL_COST)?>/<?=(Remont::CALL_PLAN*Remont::CALL_COST)?> руб.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
@@ -47,20 +82,20 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'num',
 		'date',
-		'admin_id',
-		'cdate',
-		'cadmin_id',
+		//'admin_id',
+		//'cdate',
+		//'cadmin_id',
 		'point',
-		/*
-		'address',
+
+		//'address',
 		'problem',
 		'p_when',
 		'comment',
 		'type',
-		'priority',
-		*/
-		array(
+		//'priority',
+
+		/*array(
 			'class'=>'CButtonColumn',
-		),
+		),*/
 	),
 )); ?>
