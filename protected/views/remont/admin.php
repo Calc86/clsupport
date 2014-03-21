@@ -34,7 +34,7 @@ $user = Yii::app()->user->getModel();
 $m = date('m');
 $status = $user->callStatus($m);
 
-$this->renderPartial('_stat',array('status'=>$status,'m'=>$m));
+$this->renderPartial('_stat',array('status'=>$status,'m'=>$m,'user'=>$user));
 
 ?>
 

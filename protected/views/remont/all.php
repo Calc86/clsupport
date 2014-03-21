@@ -15,6 +15,9 @@ $this->menu=array(
 
 <h1>Remonts</h1>
 
+<a href="<?=$this->createUrl('all',array('m'=>$m-1))?>">&lt;&lt;</a>
+<a href="<?=$this->createUrl('all',array('m'=>$m+1))?>">&gt;&gt;</a>
+
 <?php
 /* @var $user User */
 
@@ -26,7 +29,7 @@ $users = new CActiveDataProvider('User',array('criteria'=>$criteria));
 foreach($users->getData() as $user){
     $status = $user->callStatus($m);
 
-    $this->renderPartial('_stat',array('status'=>$status,'m'=>$m));
+    $this->renderPartial('_stat',array('status'=>$status,'m'=>$m,'user'=>$user));
 }
 
 

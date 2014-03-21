@@ -15,15 +15,17 @@
  * @return string
  */
 
+$time = mktime(0,0,0,$m,1,date('Y'));
+
 ?>
 
 <table>
     <tr>
         <td><?=date("d.m.y")?></td>
-        <td><?=date("1-t.m.Y")?></td>
+        <td><?=date("1-t.m.Y",$time)?></td>
     </tr>
     <tr>
-        <td><?=Yii::app()->user->name?></td>
+        <td><?=$user->username?></td>
         <td><?=Remont::CALL_COST?>руб/зв => <?=$status['month']?>зв/<?=($status['month']*Remont::CALL_COST)?>руб</td>
     </tr>
     <tr>
