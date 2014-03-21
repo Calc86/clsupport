@@ -7,8 +7,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Remont', 'url'=>array('create')),
-	array('label'=>'Manage Remont', 'url'=>array('admin')),
+	array('label'=>'All status', 'url'=>array('all')),
 );
 
 $salt = substr(md5('salt'.rand()),0,10);

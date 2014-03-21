@@ -28,7 +28,7 @@ class RemontController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','all'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -137,6 +137,14 @@ class RemontController extends Controller
 //			'dataProvider'=>$dataProvider,
 //		));
 	}
+
+    public function actionAll($m=0)
+    {
+        if(!$m) $m = date('m');
+        $this->render('all',array(
+            'm'=>$m
+        ));
+    }
 
 	/**
 	 * Manages all models.

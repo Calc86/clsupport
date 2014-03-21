@@ -32,7 +32,8 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, email, passwd, salt, openid', 'required'),
+			array('username, passwd, agent, denezhka_id', 'required'),
+            array('email, salt, openid', 'safe'),
 			array('agent, denezhka_id, state', 'numerical', 'integerOnly'=>true),
 			array('username, email, passwd, salt, openid', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -70,7 +71,7 @@ class User extends CActiveRecord
 		);
 	}
 
-    public function callStatus(){
+    public function callStatus($m){
         $remont = new Remont();
 
         $criteria = $remont->getDefaultCriteria();
@@ -78,8 +79,8 @@ class User extends CActiveRecord
 
         $criteria1 = clone $criteria;
         $criteria2 = clone $criteria;
-        $start = mktime(0,0,0,date('m'),1,date('Y'));
-        $end = mktime(0,0,0,date('m')+1,1,date('Y'));
+        $start = mktime(0,0,0,$m,1,date('Y'));
+        $end = mktime(0,0,0,$m+1,1,date('Y'));
         $criteria1->addBetweenCondition('cdate',
             $start,
             $end

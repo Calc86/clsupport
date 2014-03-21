@@ -134,6 +134,17 @@ class Remont extends Db2ActiveRecord
 		));
 	}
 
+    public static function statusLine($cur,$max){
+
+        $line = '____________________';
+
+        for($i=0;$i<min($cur,20);$i++){
+            $line[$i] = '=';
+        }
+
+        return $line;
+    }
+
     public function getDefaultCriteria(){
         $criteria=new CDbCriteria;
 

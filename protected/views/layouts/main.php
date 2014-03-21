@@ -31,9 +31,9 @@
 			'items'=>array(
 				array('label'=>'WorkTime', 'url'=>array('/eventLog/index')),
                 array('label'=>'Agents', 'url'=>array('/agents/index')),
-                array('label'=>'Callout', 'url'=>array('/callout/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
+//                array('label'=>'Callout', 'url'=>array('/callout/index')),
+//				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
+//				array('label'=>'Contact', 'url'=>array('/site/contact')),
                 array('label'=>'Remont', 'url'=>array('/remont/index')),
                 array('label'=>'Users', 'url'=>array('/user/index')),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),

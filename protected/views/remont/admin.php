@@ -8,8 +8,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Remont', 'url'=>array('index')),
-	array('label'=>'Create Remont', 'url'=>array('create')),
+    array('label'=>'All status', 'url'=>array('all')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -32,41 +31,14 @@ $('.search-form form').submit(function(){
 /* @var $user User */
 $user = Yii::app()->user->getModel();
 
-$status = $user->callStatus();
+$m = date('m');
+$status = $user->callStatus($m);
 
-function statusLine($cur,$max){
-
-    $line = '____________________';
-
-    for($i=0;$i<min($cur,20);$i++){
-        $line[$i] = '=';
-    }
-
-    return $line;
-}
+$this->renderPartial('_stat',array('status'=>$status,'m'=>$m));
 
 ?>
 
-<table>
-    <tr>
-        <td><?=date("d.m.y")?></td>
-        <td><?=date("1-t.m.Y")?></td>
-    </tr>
-    <tr>
-        <td><?=Yii::app()->user->name?></td>
-        <td><?=Remont::CALL_COST?>руб/зв => <?=$status['month']?>зв/<?=($status['month']*Remont::CALL_COST)?>руб</td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <table>
-                <tr>
-                    <td>План</td>
-                    <td><?=$status['day']?>/<?=Remont::CALL_PLAN?> <?=(statusLine($status['day'],Remont::CALL_PLAN))?> <?=($status['day']*Remont::CALL_COST)?>/<?=(Remont::CALL_PLAN*Remont::CALL_COST)?> руб.</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+
 
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
